@@ -31,10 +31,24 @@ class App extends Component {
 			updatedItem.quantity++;
 			updatedCart[updatedItemIndex] = updatedItem;
 		}
+		this.setState({ cart: updatedCart });
 	};
 
 	removeProductFromCart = productId => {
 		console.log('Remove Product with Id: ', productId);
+		const updatedCart = [ ...this.state.cart ];
+		const updatedItemIndex = updatedCart.findIndex(item => item.id === productId);
+
+		const updatedItem = {
+			...updatedCart[updatedItemIndex]
+		};
+		updatedItem.quantity--;
+		if (updatedItem.quantity <= 0) {
+			updatedCart.splice(updatedItemIndex, 1);
+		} else {
+			updatedCart[updatedItemIndex] = updatedItem;
+		}
+		this.setState({ cart: updatedCart });
 	};
 
 	render() {
