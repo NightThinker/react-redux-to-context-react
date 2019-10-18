@@ -31,7 +31,9 @@ class App extends Component {
 			updatedItem.quantity++;
 			updatedCart[updatedItemIndex] = updatedItem;
 		}
-		this.setState({ cart: updatedCart });
+		setTimeout(() => {
+			this.setState({ cart: updatedCart });
+		}, 700);
 	};
 
 	removeProductFromCart = productId => {
@@ -48,7 +50,9 @@ class App extends Component {
 		} else {
 			updatedCart[updatedItemIndex] = updatedItem;
 		}
-		this.setState({ cart: updatedCart });
+		setTimeout(() => {
+			this.setState({ cart: updatedCart });
+		}, 700);
 	};
 
 	render() {
