@@ -19,6 +19,18 @@ class App extends Component {
 
 	addProductToCart = product => {
 		console.log('Adding Product : ', product);
+		const updatedCart = [ ...this.state.cart ];
+		const updatedItemIndex = updatedCart.findIndex(item => item.id === product.id);
+
+		if (updatedItemIndex < 0) {
+			updatedCart.push({ ...product, quantity: 1 });
+		} else {
+			const updatedItem = {
+				...updatedCart[updatedItemIndex]
+			};
+			updatedItem.quantity++;
+			updatedCart[updatedItemIndex] = updatedItem;
+		}
 	};
 
 	removeProductFromCart = productId => {
