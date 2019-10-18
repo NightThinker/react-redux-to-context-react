@@ -31,8 +31,8 @@ class App extends Component {
 				value={{
 					products: this.state.products,
 					cart: this.state.cart,
-					addProductToCart: this.addProductToCart(),
-					removeProductFromCart: this.removeProductFromCart()
+					addProductToCart: this.addProductToCart,
+					removeProductFromCart: this.removeProductFromCart
 				}}
 			>
 				<BrowserRouter>
