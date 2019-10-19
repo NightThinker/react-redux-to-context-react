@@ -1,9 +1,9 @@
 export const ADD_PRODUCT = 'ADD_PRODUCT';
 export const REMOVE_PRODUCT = 'REMOVE_PRODUCT';
 
-const addProductToCart = (product, cart) => {
+const addProductToCart = (product, state) => {
 	console.log('Adding Product : ', product);
-	const updatedCart = [ ...cart ];
+	const updatedCart = [ ...state.cart ];
 	const updatedItemIndex = updatedCart.findIndex(item => item.id === product.id);
 
 	if (updatedItemIndex < 0) {
@@ -15,12 +15,12 @@ const addProductToCart = (product, cart) => {
 		updatedItem.quantity++;
 		updatedCart[updatedItemIndex] = updatedItem;
 	}
-	return { cart: updatedCart };
+	return { ...state, cart: updatedCart };
 };
 
-const removeProductFromCart = (productId, cart) => {
+const removeProductFromCart = (productId, state) => {
 	console.log('Remove Product with Id: ', productId);
-	const updatedCart = [ ...cart ];
+	const updatedCart = [ ...state.cart ];
 	const updatedItemIndex = updatedCart.findIndex(item => item.id === productId);
 
 	const updatedItem = {
@@ -32,15 +32,15 @@ const removeProductFromCart = (productId, cart) => {
 	} else {
 		updatedCart[updatedItemIndex] = updatedItem;
 	}
-	return { cart: updatedCart };
+	return { ...state, cart: updatedCart };
 };
 
 export const shopReducer = (state, action) => {
 	switch (action.type) {
 		case ADD_PRODUCT:
-			return addProductToCart(action.product, state.cart);
+			return addProductToCart(action.product, state);
 		case REMOVE_PRODUCT:
-			return;
+			return removeProductFromCart(action.productId, state);
 
 		default:
 			return state;
