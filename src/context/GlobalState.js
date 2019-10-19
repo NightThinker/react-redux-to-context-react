@@ -1,6 +1,7 @@
-import React, { useState, useReducer } from 'react';
+import React, { useReducer } from 'react';
 
 import ShopContext from './shop-context';
+import { shopReducer, ADD_PRODUCT, REMOVE_PRODUCT } from './reducers';
 
 const GlobalState = props => {
 	const products = [
@@ -10,50 +11,25 @@ const GlobalState = props => {
 		{ id: 'p4', title: 'Half-dried plant', price: 2.99 }
 	];
 
-	const [ cart, setCart ] = useState([]);
+	// const [ cart, setCart ] = useState([]);
+	const [ cartState, dispatch ] = useReducer(shopReducer, { cart: [] });
 
 	const addProductToCart = product => {
-		console.log('Adding Product : ', product);
-		const updatedCart = [ ...cart ];
-		const updatedItemIndex = updatedCart.findIndex(item => item.id === product.id);
-
-		if (updatedItemIndex < 0) {
-			updatedCart.push({ ...product, quantity: 1 });
-		} else {
-			const updatedItem = {
-				...updatedCart[updatedItemIndex]
-			};
-			updatedItem.quantity++;
-			updatedCart[updatedItemIndex] = updatedItem;
-		}
 		setTimeout(() => {
-			setCart(updatedCart);
+			dispatch({ type: ADD_PRODUCT, product: product });
 		}, 700);
 	};
 
 	const removeProductFromCart = productId => {
-		console.log('Remove Product with Id: ', productId);
-		const updatedCart = [ ...cart ];
-		const updatedItemIndex = updatedCart.findIndex(item => item.id === productId);
-
-		const updatedItem = {
-			...updatedCart[updatedItemIndex]
-		};
-		updatedItem.quantity--;
-		if (updatedItem.quantity <= 0) {
-			updatedCart.splice(updatedItemIndex, 1);
-		} else {
-			updatedCart[updatedItemIndex] = updatedItem;
-		}
 		setTimeout(() => {
-			setCart(updatedCart);
+			dispatch({ type: REMOVE_PRODUCT, productId: productId });
 		}, 700);
 	};
 	return (
 		<ShopContext.Provider
 			value={{
 				products: products,
-				cart: cart,
+				cart: cartState.cart,
 				addProductToCart: addProductToCart,
 				removeProductFromCart: removeProductFromCart
 			}}
